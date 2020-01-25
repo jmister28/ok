@@ -42,8 +42,17 @@ const calculateHash(index: number, previousHash: string, timestamp: number, data
 //validate blocks
 const isValidNewBlock = (newBlock: Block, previousBlock: Block) => {
   if (previousBlock.index + 1 !== newBlock.index){
-    console.log("");
+    console.log('invalid index');
     return false;
+  } else if(previousBlock.hash !== newBlock.previousHash){
+    console.log('Hash of previous block does not match record in current block. Invalid.");
+    return false;
+  }else if(calculateHashForBlock(newBlock) !== newBlock.hash){
+      console.log('Hash has been changed. Invalid');
+      return false;
   }
   return true;
-}
+};
+//end function
+ 
+
