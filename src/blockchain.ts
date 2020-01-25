@@ -54,5 +54,31 @@ const isValidNewBlock = (newBlock: Block, previousBlock: Block) => {
   return true;
 };
 //end function
- 
+  
+// validate block structure
+const isValidBlockStructure = (block: Block): boolean => {
+  return typeof block.index === 'number'
+      && typeof block.hash === 'string'
+      && typeof block.previousHash === 'string'
+      && typeof block.timestamp === 'number'
+      && typeof block.data === 'string';
+};
+// end function
 
+//verify chain
+const isValidChain = (blockchainToValidate: Block[]): boolean =>{
+  const isValidGenesis = (block: Block): boolean => {
+    return JSON.stringify(block) === JSON.stringify(genesisBlock);
+  };
+  if(!isValidGenesis(blockchainToValidate[0])){
+    return false;
+  }
+  for(let i = 1; i < blockchainToValidate.length; i++){
+    if(!isValidNewBlock(blockchainToValidate[i), blockchainToValidate[i-1])){
+      return false;
+    }
+  }
+  
+  return true;
+};
+// end function
