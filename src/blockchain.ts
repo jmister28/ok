@@ -82,3 +82,14 @@ const isValidChain = (blockchainToValidate: Block[]): boolean =>{
   return true;
 };
 // end function
+  
+// chain replacing function in case of node dissagreement
+const replaceChain = (newBlocks: Blocks[]) =>{
+  if(isValidChain(newBlocks) && newBlocks.length > getBlockchain().length) {
+    console.log('Submitted Blockchain is valid, Replacing old blockchain with new blocks');
+    blockchain = newBlocks;
+    broadcastLatest;
+  } else {
+    console.log('Submitted Blockchain is INVALID. Cannot Replace");
+  }
+}
