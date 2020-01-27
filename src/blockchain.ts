@@ -37,8 +37,18 @@ const generateNextBlock = (blockData: string) => {
   const nextHash: string = calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData);
   const newBlock: Block = new Block(nextIndex, nextHash, previousBlock.hash, nextTimestamp, blockData);
   return newBlock;
-}
+};
 //end function
+// find block
+const findBlock = (index: number, previousHash: string, timestamp: number, data: string, difficulty: number) =>{
+  let nonce = 0;
+  while (true){
+    const hash: string = calculateHash(index, previousHash, timestamp, data, difficulty, nonce);
+    if(hashMatchesDifficulty(hash, difficulty)){
+      return new Block(index, hash, timestamp, data, difficulty, nonce);
+    }
+  }
+};
 
 // Calculate current block hash using CryptoJS
 const calculateHash(index: number, previousHash: string, timestamp: number, data: string): string => 
