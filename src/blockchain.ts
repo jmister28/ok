@@ -81,8 +81,26 @@ const hashMatchesDifficulty = (hash: string, difficulty: number): boolean =>{
   return hashInBinary.startsWith(requiredPrefix);
 };
 //end function
+  
 //get Difficulty
+const getDifficulty = (aBlockchain: Block[]): number => {
+  const latestBlock: Block = aBlockchain[blockchain.length - 1];
+  if(latestBlock.index % DIFFICULTY_ADJUSTMENT_INTERVAL === 0 && latestBlock.index !=== 0){
+    return getAdjustedDifficulty(latestBlock, aBlockchain);
+  } else {
+    return latestBlock.difficulty;
+  }
+};
 //end function
+  
+//get adjusted Difficulty
+const getAdjustedDifficulty(latestBlock: Block, aBlockchain: Block[]) => {
+  const prevAdjustmentBlock: Block = aBlockchain[latestBlock.index - DIFFICULTY_ADJUSTMENT_INTERVAL];
+  const timeExpected = BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL;
+  const timeTaken = latestBlock.timestamp - prevAdjustmentBlock.timestamp;
+}
+//end functtion
+  
 // validate block structure
 const isValidBlockStructure = (block: Block): boolean => {
   return typeof block.index === 'number'
