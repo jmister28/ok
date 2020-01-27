@@ -29,6 +29,9 @@ const genesisBlock: Block = new Block(
 //define blockchain as array
 const blockchain: Block[] = [genesisBlock];
 
+const BLOCK_GENERATION_INTERVAL = 60;
+const DIFFICULTY_ADJUSTMENT_INTERVAL = 1000;
+
 //generate new block function
 const generateNextBlock = (blockData: string) => {
   const previousBlock: Block = getLatestBlock(); // most recent block before the one we are about to create
@@ -76,9 +79,10 @@ const hashMatchesDifficulty = (hash: string, difficulty: number): boolean =>{
   const hashInBinary: string = hexToBinary(hash);
   const requiredPrefix: string = '0'.repeat(difficulty);
   return hashInBinary.startsWith(requiredPrefix);
-}
+};
 //end function
-  
+//get Difficulty
+//end function
 // validate block structure
 const isValidBlockStructure = (block: Block): boolean => {
   return typeof block.index === 'number'
