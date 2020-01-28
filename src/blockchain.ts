@@ -29,8 +29,8 @@ const genesisBlock: Block = new Block(
 //define blockchain as array
 const blockchain: Block[] = [genesisBlock];
 
-const BLOCK_GENERATION_INTERVAL = 60;
-const DIFFICULTY_ADJUSTMENT_INTERVAL = 1000;
+const BLOCK_GENERATION_INTERVAL = 10; //seconds
+const DIFFICULTY_ADJUSTMENT_INTERVAL = 2016;
 
 //generate new block function
 const generateNextBlock = (blockData: string) => {
@@ -98,7 +98,14 @@ const getAdjustedDifficulty(latestBlock: Block, aBlockchain: Block[]) => {
   const prevAdjustmentBlock: Block = aBlockchain[latestBlock.index - DIFFICULTY_ADJUSTMENT_INTERVAL];
   const timeExpected = BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL;
   const timeTaken = latestBlock.timestamp - prevAdjustmentBlock.timestamp;
-}
+  if(timeTaken < timeExpected/2){
+    return prevAdjustmentBlock.difficulty + 1;
+  } else if(timeTaken > timeExpected/2) {
+    return prevAdjustmentBlock.difficulty - 1;
+  } else {
+    return prevAdjustmentBlock.difficulty;
+  }
+};
 //end functtion
   
 // validate block structure
